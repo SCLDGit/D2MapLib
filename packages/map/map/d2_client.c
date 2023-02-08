@@ -232,7 +232,6 @@ void add_collision_data(CollMap *pCol, int originX, int originY) {
 }
 
 char *get_object_type(int code) {
-    if (object_is_useless(code)) return NULL;
     return "object";
 }
 
@@ -384,6 +383,23 @@ int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2) {
     return 0;
 }
 
+void dump_rooms(Level *pLevel) {
+    Room2 *room = pLevel->pRoom2First;
+
+    for (Room2 *pRoom = pLevel->pRoom2First; pRoom; pRoom = pRoom->pRoom2Next) {
+        json_object_start();
+        int coordX = pRoom->dwPosX * 5;
+        int coordY = pRoom->dwPosY * 5;
+        int width = pRoom->dwSizeX * 5;
+        int height = pRoom->dwSizeY * 5;
+        json_key_value("x", coordX);
+        json_key_value("y", coordY);
+        json_key_value("width", width);
+        json_key_value("height", height);
+        json_object_end();
+    }
+}
+
 void dump_map_collision(int width, int height) {
     int maxY = map_max_y();
     int maxX = map_max_x();
@@ -486,6 +502,9 @@ int d2_dump_map(int seed, int difficulty, int levelCode) {
     json_key_value("height", mapHeight);
     json_object_end();
 
+    json_array_start("rooms");
+    dump_rooms(pLevel);
+    json_array_end();
     json_array_start("objects");
 
     for (Room2 *pRoom2 = pLevel->pRoom2First; pRoom2; pRoom2 = pRoom2->pRoom2Next) {
