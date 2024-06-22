@@ -99,12 +99,10 @@ void /* __declspec(naked) */ D2CLIENT_Pd2_InitGameMisc() {
     __asm(
         "MOVL %EBP, %ESP\n"
         "POPL %EBP\n"
-        ".intel_syntax noprefix\n"
-        "PUSH ECX\n"
-        "PUSH EBP\n"
-        "PUSH ESI\n"
-        "PUSH EDI\n"
-        ".att_syntax prefix\n"
+        "PUSHL %ECX\n"
+        "PUSHL %EBP\n"
+        "PUSHL %ESI\n"
+        "PUSHL %EDI\n"
         "JMP 0x6faf454b\n"  // Magic Jump
         "PUSHL %EBP\n");
 }
