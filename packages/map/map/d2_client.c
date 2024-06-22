@@ -104,7 +104,7 @@ void /* __declspec(naked) */ D2CLIENT_Pd2_InitGameMisc() {
         "PUSHL %ESI\n"
         "PUSHL %EDI\n"
         "JMP 0x6faf454b\n"  // Magic Jump
-        "PUSHL %EBP\n");
+        );
 }
 bool isProjectDiablo2 = false;
 void d2_game_init_pd2() {
