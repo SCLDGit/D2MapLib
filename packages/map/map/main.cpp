@@ -9,11 +9,11 @@
 
 #define INPUT_BUFFER 1024
 
-const char COMMAND_EXIT[] = "$exit";
-const char COMMAND_MAP[] = "$map";
-const char COMMAND_DIFF[] = "$difficulty";
-const char COMMAND_ACT[] = "$act";
-const char COMMAND_SEED[] = "$seed";
+constexpr char COMMAND_EXIT[] = "$exit";
+constexpr char COMMAND_MAP[] = "$map";
+constexpr char COMMAND_DIFF[] = "$difficulty";
+constexpr char COMMAND_ACT[] = "$act";
+constexpr char COMMAND_SEED[] = "$seed";
 
 bool starts_with(const char *prefix, const char *search_string) {
     if (strncmp(prefix, search_string, strlen(search_string)) == 0) return true;
