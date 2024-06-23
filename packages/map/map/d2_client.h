@@ -1,3 +1,5 @@
+#pragma once
+
 #include "d2_structs.h"
 
 int get_act(int act);

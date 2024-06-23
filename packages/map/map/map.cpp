@@ -4,7 +4,7 @@ int MAP[1500 * 1500];
 unsigned int MAX_SIZE_X = 0;
 unsigned int MAX_SIZE_Y = 0;
 
-#define MAP_DATA_INVALID -1       // Invalid
+#define MAP_DATA_INVALID (-1)       // Invalid
 #define MAP_DATA_CLEANED 11110    // Cleaned for start/end positions
 #define MAP_DATA_FILLED 11111     // Filled gaps
 #define MAP_DATA_THICKENED 11113  // Wall thickened

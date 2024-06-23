@@ -1,5 +1,4 @@
-#ifndef _NpcType_h__
-#define _NpcType_h__
+#pragma once
 
 enum NpcCode {
     Skeleton = 0,
@@ -902,5 +901,3 @@ static bool npc_is_useless(unsigned int code) {
         }
     }
 }
-
-#endif

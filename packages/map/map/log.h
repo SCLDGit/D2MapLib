@@ -1,5 +1,4 @@
-#ifndef LOG_H__
-#define LOG_H__
+#pragma once
 
 #include "json.h"
 
@@ -34,5 +33,3 @@ void log_level(int logLevel);
 void log_process(int level, const char *fileName, int line, const char *msg, ...);
 /** Get the current time in milliseconds */
 int64_t currentTimeMillis();
-
-#endif

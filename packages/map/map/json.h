@@ -1,7 +1,6 @@
-#ifndef JSON_H
-#define JSON_H
+#pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
 /** Really stupid JSON encoder which dumps to stdout/stderr */
 void json_start();
@@ -23,5 +22,3 @@ void json_object_start(const char *key);
 void json_object_end();
 void json_end();
 void json_end(bool force);
-
-#endif

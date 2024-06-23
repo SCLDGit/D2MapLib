@@ -1,5 +1,4 @@
-#ifndef _D2STRUCTS_H
-#define _D2STRUCTS_H
+#pragma once
 
 #include <windows.h>
 
@@ -518,8 +517,6 @@ struct sgptDataTable {
     DWORD dwStorePageRecords;
     MpqTable *pElemTypes;
 };
-
-#endif
 
 /*
 struct Room2 {

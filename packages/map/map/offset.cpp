@@ -1,6 +1,6 @@
 
-#define _DEFINE_VARS
-#include <stdio.h>
+#define DEFINE_VARS
+#include <cstdio>
 
 #include "log.h"
 #include "d2_ptrs.h"
@@ -25,7 +25,7 @@ DWORD GetDllOffset(const char *DllName, int Offset) {
         HMODULE hMod = GetModuleHandle(DllName);
         if (!hMod) hMod = LoadLibrary(DllName);
         if (!hMod) return 0;
-        if (Offset < 0)return (DWORD)GetProcAddress(hMod, (LPCSTR)(-Offset));
+        if (Offset < 0) return (DWORD)GetProcAddress(hMod, (LPCSTR)(-Offset));
         return ((DWORD)hMod) + Offset;
     } catch (...) {
         log_error("Dll:InitFailed", lk_s("dll", DllName), lk_i("offset", Offset));
@@ -48,8 +48,9 @@ DWORD GetDllOffset(int num) {
 }
 
 void DefineOffsets() {
-    DWORD *p = (DWORD *)&D2PTRS_START;
+    auto *p = reinterpret_cast<DWORD*>(&D2PTRS_START);
     do {
+        // Changing the GetDllOffset signature to accept an unsigned int breaks runtime. - Comment by M9 on 06/23/2024 @ 14:41:23
         *p = GetDllOffset(*p);
-    } while (++p <= (DWORD *)&D2PTRS_END);
+    } while (++p <= reinterpret_cast<DWORD*>(&D2PTRS_END));
 }

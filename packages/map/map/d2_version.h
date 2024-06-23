@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include <cstdio>
 #include <windows.h>
 
-#ifndef D2_VERSION_H
-#define D2_VERSION_H
+#pragma once
+
 #include "log.h"
 
 enum D2Version {
@@ -46,4 +46,3 @@ D2Version game_version(char* folderName) {
     if (game_version_exists(folderName, VersionDiablo2)) return VersionDiablo2; 
     return VersionUnknown;
 }
-#endif

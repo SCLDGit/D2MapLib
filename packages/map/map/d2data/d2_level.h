@@ -1,6 +1,4 @@
-#ifndef _level_h__
-#define _level_h__
-
+#pragma once
 
 enum AreaLevel {
     Abaddon = 125, 
@@ -146,5 +144,3 @@ enum AreaLevel {
     MapsInfernalTrial = 140, 
     MapsRuinedCitadel = 141 
 };
-
-#endif

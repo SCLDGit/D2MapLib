@@ -1,7 +1,8 @@
+#pragma once
 
 #include "d2_structs.h"
 
-#ifdef _DEFINE_VARS
+#ifdef DEFINE_VARS
 
 enum {
     DLLNO_D2CLIENT,
@@ -107,7 +108,7 @@ FUNCPTR(D2COMMON, 10943, DWORD __stdcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD P
 #define D2PTRS_START FOG_10021
 #define D2PTRS_END D2COMMON_10943
 
-// #ifdef _DEFINE_VARS
+// #ifdef DEFINE_VARS
 // #else
 
 // #endif

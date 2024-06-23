@@ -1,5 +1,4 @@
-#ifndef _GameObject_h__
-#define _GameObject_h__
+#pragma once
 
 enum GameObject {
     NotApplicable = -1,
@@ -829,5 +828,3 @@ static bool object_is_useless(int id) {
             return false;
     }
 }
-
-#endif
