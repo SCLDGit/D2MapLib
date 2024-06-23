@@ -48,8 +48,8 @@ DWORD GetDllOffset(int num) {
 }
 
 void DefineOffsets() {
-    DWORD *p = (DWORD *)&_D2PTRS_START;
+    DWORD *p = (DWORD *)&D2PTRS_START;
     do {
         *p = GetDllOffset(*p);
-    } while (++p <= (DWORD *)&_D2PTRS_END);
+    } while (++p <= (DWORD *)&D2PTRS_END);
 }

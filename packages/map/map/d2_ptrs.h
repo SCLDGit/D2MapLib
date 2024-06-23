@@ -45,9 +45,9 @@ enum {
 FUNCPTR(FOG, 10021, VOID __fastcall, (const CHAR * szProg), -10021)
 FUNCPTR(D2COMMON,     LoadAct, Act *__stdcall, (DWORD ActNumber, DWORD MapId, DWORD Unk, DWORD Unk_2, DWORD Unk_3, DWORD Unk_4, DWORD TownLevelId, DWORD Func_1, DWORD Func_2), 0x24810)  // 1.13d
 
-FUNCPTR(FOG, 10019, DWORD __fastcall, (CHAR * szAppName, DWORD pExceptionHandler, CHAR *szTitle, DWORD _1), -10019)
-FUNCPTR(FOG, 10101, DWORD __fastcall, (DWORD _1, DWORD _2), -10101)
-FUNCPTR(FOG, 10089, DWORD __fastcall, (DWORD _1), -10089)
+FUNCPTR(FOG, 10019, DWORD __fastcall, (const CHAR * szAppName, DWORD pExceptionHandler, const CHAR *szTitle, DWORD _1), -10019)
+FUNCPTR(FOG, 10101, DWORD __fastcall, (DWORD PARAM_1, DWORD PARAM_2), -10101)
+FUNCPTR(FOG, 10089, DWORD __fastcall, (DWORD PARAM_1), -10089)
 FUNCPTR(FOG, 10218, DWORD __fastcall, (VOID), -10218)
 
 // Path of diablo specific
@@ -59,7 +59,7 @@ ASMPTR(D2CLIENT, Pod_LoadAct_2, 0x2B420)
 FUNCPTR(D2COMMON, Pod_AddRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), 0x24990)
 FUNCPTR(D2COMMON, Pod_RemoveRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), 0x24930)
 FUNCPTR(D2COMMON, Pod_GetLevel, Level *__fastcall, (ActMisc * pMisc, DWORD dwLevelNo), 0x6D440)
-FUNCPTR(D2COMMON, Pod_InitDataTables, DWORD __stdcall, (DWORD _1, DWORD _2, DWORD _3), -10081)  //  1.13d
+FUNCPTR(D2COMMON, Pod_InitDataTables, DWORD __stdcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD PARAM_3), -10081)  //  1.13d
 
 FUNCPTR(D2COMMON, Pod_InitLevel, void __stdcall, (Level * pLevel), 0x6DDF0)
 FUNCPTR(D2COMMON, Pod_LoadAct, Act *__stdcall, (DWORD ActNumber, DWORD MapId, DWORD Unk, DWORD Unk_2, DWORD Unk_3, DWORD Unk_4, DWORD TownLevelId, DWORD Func_1, DWORD Func_2), 0x24810)
@@ -69,10 +69,10 @@ FUNCPTR(D2COMMON, Pod_GetLevelText, LevelTxt *__stdcall, (DWORD levelno), 0x30CA
 FUNCPTR(D2COMMON, Pod_GetObjectTxt, ObjectTxt *__stdcall, (DWORD objno), 0x1ADC0)
 
 
-FUNCPTR(D2COMMON, 10081, DWORD __stdcall, (DWORD _1, DWORD _2, DWORD _3), -10081)
-FUNCPTR(D2LANG, 10009, DWORD __fastcall, (DWORD _1, CHAR *_2, DWORD _3), -10009)
+FUNCPTR(D2COMMON, 10081, DWORD __stdcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD PARAM_3), -10081)
+FUNCPTR(D2LANG, 10009, DWORD __fastcall, (DWORD PARAM_1, const CHAR *PARAM_2, DWORD PARAM_3), -10009)
 FUNCPTR(D2WIN, 10174, DWORD __fastcall, (VOID), -10174)
-FUNCPTR(D2WIN, 10072, DWORD __fastcall, (DWORD _1, DWORD _2, DWORD _3, d2client_struct *pD2Client), -10072) 
+FUNCPTR(D2WIN, 10072, DWORD __fastcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD PARAM_3, d2client_struct *pD2Client), -10072)
 
 // Project Diablo 2 Specific / v1.13c
 FUNCPTR(D2CLIENT, Pd2_InitGameMisc_I, VOID __stdcall, (DWORD Dummy1, DWORD Dummy2, DWORD Dummy3), 0x4454B)
@@ -89,13 +89,13 @@ FUNCPTR(D2COMMON, Pd2_UnloadAct, VOID __stdcall, (Act * pAct), -10868)
 
 FUNCPTR(D2COMMON, Pd2_GetLevelText, LevelTxt *__stdcall, (DWORD levelno), -10014)
 FUNCPTR(D2COMMON, Pd2_GetObjectTxt, ObjectTxt *__stdcall, (DWORD objno), -10688)
-FUNCPTR(D2COMMON, Pd2_InitDataTables, DWORD __stdcall, (DWORD _1, DWORD _2, DWORD _3), -10943)  //  1.13d
+FUNCPTR(D2COMMON, Pd2_InitDataTables, DWORD __stdcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD PARAM_3), -10943)  //  1.13d
 
 
 FUNCPTR(D2WIN, 10086, DWORD __fastcall, (VOID), -10086)
-FUNCPTR(D2WIN, 10005, DWORD __fastcall, (DWORD _1, DWORD _2, DWORD _3, d2client_struct *pD2Client), -10005)
-FUNCPTR(D2LANG, 10008, DWORD __fastcall, (DWORD _1, const CHAR *_2, DWORD _3), -10008)
-FUNCPTR(D2COMMON, 10943, DWORD __stdcall, (DWORD _1, DWORD _2, DWORD _3), -10943)
+FUNCPTR(D2WIN, 10005, DWORD __fastcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD PARAM_3, d2client_struct *pD2Client), -10005)
+FUNCPTR(D2LANG, 10008, DWORD __fastcall, (DWORD PARAM_1, const CHAR *PARAM_2, DWORD PARAM_3), -10008)
+FUNCPTR(D2COMMON, 10943, DWORD __stdcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD PARAM_3), -10943)
 
 
 // Pod => PD2
@@ -104,8 +104,8 @@ FUNCPTR(D2COMMON, 10943, DWORD __stdcall, (DWORD _1, DWORD _2, DWORD _3), -10943
 // InitB D2WIN.10072    -> D2WIN.10005
 //
 
-#define _D2PTRS_START FOG_10021
-#define _D2PTRS_END D2COMMON_10943
+#define D2PTRS_START FOG_10021
+#define D2PTRS_END D2COMMON_10943
 
 // #ifdef _DEFINE_VARS
 // #else
