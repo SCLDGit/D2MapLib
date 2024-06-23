@@ -12,23 +12,23 @@ enum D2Version {
     VersionProjectDiablo2
 };
 
-CHAR* Path_PathOfDiablo = (CHAR*)"Path of Diablo/";
-CHAR* Path_ProjectDiablo2 = (CHAR*)"ProjectD2/";
-CHAR* Path_Diablo2 = (CHAR*)"";
+const CHAR* Path_PathOfDiablo = "Path of Diablo/";
+const CHAR* Path_ProjectDiablo2 = "ProjectD2/";
+const CHAR* Path_Diablo2 = "";
 
 /** Convert the D2Version to the path that the files are normally located in */
-char* game_version_path(D2Version version) {
+const char* game_version_path(D2Version version) {
     if (version == VersionPathOfDiablo) return Path_PathOfDiablo;
     if (version == VersionProjectDiablo2) return Path_ProjectDiablo2;
     if (version == VersionDiablo2) return "";
-    return NULL;
+    return nullptr;
 }
 
 /** Determine if a a version of the game exists in the path by checking for Game.exe */
 bool game_version_exists(char* folderName, D2Version version) {
     char gamePathExe[MAX_PATH];
-    char* gamePath = game_version_path(version);
-    if (gamePath == NULL) return false;
+    const char* gamePath = game_version_path(version);
+    if (gamePath == nullptr) return false;
 
     sprintf(gamePathExe, "%s\\%sGame.exe", folderName, gamePath);
 

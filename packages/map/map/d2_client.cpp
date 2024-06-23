@@ -152,7 +152,7 @@ void d2_game_init(char *folderName) {
         ExitProcess(1);
     }
 
-    char *gamePath = game_version_path(gameVersion);
+    const char *gamePath = game_version_path(gameVersion);
     if (gamePath == nullptr) {
         log_error("Init:Failed:UnknownGamePath", lk_s("path", folderName), lk_s("version", game_version_path(gameVersion)));
         ExitProcess(1);
