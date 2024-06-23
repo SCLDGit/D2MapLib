@@ -18,12 +18,14 @@
 #include "offset.h"
 #include "d2_client_version.h"
 
-#define UNIT_TYPE_PLAYER 0
-#define UNIT_TYPE_NPC 1
-#define UNIT_TYPE_OBJECT 2
-#define UNIT_TYPE_MISSILE 3
-#define UNIT_TYPE_ITEM 4
-#define UNIT_TYPE_TILE 5
+enum UnitType {
+    UNIT_TYPE_PLAYER = 0,
+    UNIT_TYPE_NPC = 1,
+    UNIT_TYPE_OBJECT = 2,
+    UNIT_TYPE_MISSILE = 3,
+    UNIT_TYPE_ITEM = 4,
+    UNIT_TYPE_TILE = 5
+};
 
 d2client_struct D2Client;
 char D2_DIR[MAX_PATH] = "";

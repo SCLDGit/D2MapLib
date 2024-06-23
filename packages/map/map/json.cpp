@@ -1,5 +1,5 @@
 #include <windows.h>
-#include <inttypes.h>
+#include <cinttypes>
 #include <iostream>
 
 FILE* jsonFp;

@@ -4,7 +4,6 @@
 
 #include "log.h"
 #include "d2_client.h"
-#include "d2_ptrs.h"
 #include "d2_structs.h"
 #include "json.h"
 

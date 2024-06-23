@@ -1,8 +1,8 @@
 #include <unistd.h>
 #include <cstdlib>
-#include <stdarg.h>
-#include <inttypes.h>
-#include <stdio.h>
+#include <cstdarg>
+#include <cinttypes>
+#include <cstdio>
 #include <sys/time.h>
 
 #include "json.h"
@@ -27,14 +27,14 @@ void log_level(int logLevel) {
     LogLevel = logLevel;
 }
 int64_t currentTimeMillis() {
-    struct timeval time;
-    gettimeofday(&time, NULL);
+    struct timeval time{};
+    gettimeofday(&time, nullptr);
     int64_t s1 = (int64_t)(time.tv_sec) * 1000;
     int64_t s2 = (time.tv_usec / 1000);
     return s1 + s2;
 }
 
-static enum {
+[[maybe_unused]] static enum {
     LOG_INT,
     LOG_UINT,
     LOG_STRING,
@@ -43,7 +43,7 @@ static enum {
 
 
 static struct log_obj* log_field_new(const char* key) {
-    struct log_obj* field = (struct log_obj*)malloc(sizeof(log_obj));
+    auto* field = (struct log_obj*)malloc(sizeof(log_obj));
     memset(field, 0, sizeof(log_obj));
     field->key = (char*)malloc(strlen(key) + 1);
     strcpy(field->key, key);
@@ -51,9 +51,9 @@ static struct log_obj* log_field_new(const char* key) {
 }
 
 static void log_field_free(struct log_obj* sf) {
-    if (sf == NULL) return;
-    if (sf->key != NULL) free(sf->key);
-    if ((sf->type == LOG_STRING) && (sf->char_val != NULL)) free(sf->char_val);
+    if (sf == nullptr) return;
+    if (sf->key != nullptr) free(sf->key);
+    if ((sf->type == LOG_STRING) && (sf->char_val != nullptr)) free(sf->char_val);
     free(sf);
 }
 
@@ -75,7 +75,7 @@ struct log_obj* lk_s(const char* key, const char* value) {
     struct log_obj* field = log_field_new(key);
     field->type = LOG_STRING;
 
-    int char_len = strlen(value);
+    unsigned int char_len = strlen(value);
     field->char_val = (char*)malloc(char_len + 1);
 
     for (int i = 0; i < char_len; i ++) {
@@ -103,12 +103,12 @@ void log_process(int level, const char* fileName, int line, const char* msg, ...
 
     for (int i = 1;; i++) {
         struct log_obj* arg = va_arg(ap, struct log_obj*);
-        if (arg == NULL) break;
+        if (arg == nullptr) break;
 
 
         if (arg->type == LOG_INT) fprintf(stdout, ",\"%s\":%d", arg->key, arg->int_val);
-        else if (arg->type == LOG_UINT) fprintf(stdout, ",\"%s\": \"%#08x\"", arg->key, arg->uint_val);
-        else if (arg->type == LOG_STRING) fprintf(stdout, ",\"%s\":\"%s\"", arg->key, arg->char_val);
+        else if (arg->type == LOG_UINT) fprintf(stdout, R"(,"%s": "%#08x")", arg->key, arg->uint_val);
+        else if (arg->type == LOG_STRING) fprintf(stdout, R"(,"%s":"%s")", arg->key, arg->char_val);
 
         log_field_free(arg);
     }
