@@ -64,7 +64,7 @@ void /* __declspec(naked) */ D2CLIENT_Pod_InitGameMisc() {
 void d2_game_init_pod() {
     *p_STORM_Pod_MPQHashTable = (DWORD)NULL;
     D2Client.dwInit = 1;
-    D2Client.fpInit = (DWORD)D2ClientInterface;
+    D2Client.fpInit = reinterpret_cast<DWORD>(D2ClientInterface);
 
     log_trace("Init:Dll", lk_s("dll", "Fog.dll"));
     FOG_10021("D2");
@@ -96,7 +96,6 @@ void d2_game_init_pod() {
 
 int D2CLIENT_Pd2_InitGameMisc_I_P = 0x6faf454b;
 void /* __declspec(naked) */ D2CLIENT_Pd2_InitGameMisc() {
-    int address = D2CLIENT_Pd2_InitGameMisc_I_P;
     __asm(
         "MOVL %EBP, %ESP\n"
         "POPL %EBP\n"
@@ -152,28 +151,10 @@ void d2_game_init(char *folderName) {
     }
 
     char *gamePath = game_version_path(gameVersion);
-    if (gamePath == NULL) {
+    if (gamePath == nullptr) {
         log_error("Init:Failed:UnknownGamePath", lk_s("path", folderName), lk_s("version", game_version_path(gameVersion)));
         ExitProcess(1);
     }
-
-
-//    LPCTSTR keyName = TEXT("SOFTWARE\\Blizzard Entertainment\\Diablo II");
-//    HKEY hKey;
-//    LONG openRes = RegOpenKeyEx(HKEY_CURRENT_USER, keyName, 0, KEY_ALL_ACCESS, &hKey);
-//
-//    if (openRes == ERROR_SUCCESS) {
-//        log_trace("Registry:Opened");
-//    } else {
-//        log_error("Registry:Failed:Open");
-//        ExitProcess(1);
-//    }
-//
-//    LPCTSTR value = TEXT("InstallPath");
-//    LPCTSTR data = folderName;
-//    LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data) + 1);
-//    log_info("Registry:InstallPath", lk_s("value", folderName));
-//    RegCloseKey(hKey);
 
     sprintf_s(D2_DIR, sizeof(D2_DIR), "%s/%s", folderName, game_version_path(gameVersion));
     log_info("Init:Game", lk_s("version", game_version_path(gameVersion)), lk_s("path", D2_DIR));
@@ -193,35 +174,33 @@ void d2_game_init(char *folderName) {
     }
 
     SetCurrentDirectory(folderName);
-    return;
 }
 
 Level *__fastcall d2_get_level(ActMisc *misc, DWORD levelCode) {
     LevelTxt *levelData = d2common_get_level_text(gameVersion, levelCode); 
-    if (!levelData) return NULL;
+    if (!levelData) return nullptr;
 
     for (Level *pLevel = misc->pLevelFirst; pLevel; pLevel = pLevel->pNextLevel) {
-        if (!pLevel) break;
         if (pLevel->dwLevelNo == levelCode) return pLevel;
     }
 
     return d2common_get_level(gameVersion, misc, levelCode);
 }
 
-void add_collision_data(CollMap *pCol, int originX, int originY) {
-    if (pCol == NULL) return;
+void add_collision_data(CollMap *pCol, unsigned int originX, unsigned int originY) {
+    if (pCol == nullptr) return;
 
-    int x = pCol->dwPosGameX - originX;
-    int y = pCol->dwPosGameY - originY;
-    int cx = pCol->dwSizeGameX;
-    int cy = pCol->dwSizeGameY;
+    unsigned long x = pCol->dwPosGameX - originX;
+    unsigned long y = pCol->dwPosGameY - originY;
+    unsigned long cx = pCol->dwSizeGameX;
+    unsigned long cy = pCol->dwSizeGameY;
 
-    int nLimitX = x + cx;
-    int nLimitY = y + cy;
+    unsigned long nLimitX = x + cx;
+    unsigned long nLimitY = y + cy;
 
     WORD *p = pCol->pMapStart;
-    for (int j = y; j < nLimitY; j++) {
-        for (int i = x; i < nLimitX; i++) {
+    for (auto j = y; j < nLimitY; j++) {
+        for (auto i = x; i < nLimitX; i++) {
             int pVal = *p;
             if (pVal == 1024) pVal = 1;
             map_set(i, j, pVal);
@@ -230,11 +209,11 @@ void add_collision_data(CollMap *pCol, int originX, int originY) {
     }
 }
 
-char *get_object_type(int code) {
+const char *get_object_type() {
     return "object";
 }
 
-char *get_object_class(int code, char* name, int operateFn) {
+const char *get_object_class(unsigned int code, int operateFn) {
     switch (operateFn){
         case 1: return "casket";
         case 2: return "shrine";
@@ -280,13 +259,15 @@ char *get_object_class(int code, char* name, int operateFn) {
         /** Sun altar */
         case 24: 
             return "quest";
+        default:
+            break;
     }
 
     if (code == 580 || code == 581) return "chest-super";
-    return NULL;
+    return nullptr;
 }
 
-bool is_good_exit(Act *pAct, Level *pLevel, int exitId) {
+bool is_good_exit(Act *pAct, Level *pLevel, unsigned int exitId) {
     // Act 1
     // BloodMoor -> Den of evil
     if (pLevel->dwLevelNo == AreaLevel::BloodMoor && exitId == AreaLevel::DenOfEvil) return true;
@@ -322,24 +303,24 @@ bool is_good_exit(Act *pAct, Level *pLevel, int exitId) {
     return false;
 }
 
-int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2) {
-    int offsetX = pLevel->dwPosX * 5;
-    int offsetY = pLevel->dwPosY * 5;
+void dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2) {
+    unsigned int offsetX = pLevel->dwPosX * 5;
+    unsigned int offsetY = pLevel->dwPosY * 5;
 
-    int roomOffsetX = pRoom2->dwPosX * 5 - offsetX;
-    int roomOffsetY = pRoom2->dwPosY * 5 - offsetY;
+    unsigned int roomOffsetX = pRoom2->dwPosX * 5 - offsetX;
+    unsigned int roomOffsetY = pRoom2->dwPosY * 5 - offsetY;
 
     for (PresetUnit *pPresetUnit = pRoom2->pPreset; pPresetUnit; pPresetUnit = pPresetUnit->pPresetNext) {
-        char *objectType = NULL;
-        char *objectName = NULL;
-        char *objectClass = NULL;
+        const char *objectType = nullptr;
+        const char *objectName = nullptr;
+        const char *objectClass = nullptr;
         bool isGoodExit = false;
         int operateFn = -1;
 
-        int objectId = -1;
+        unsigned int objectId = -1;
 
-        int coordX = roomOffsetX + pPresetUnit->dwPosX;
-        int coordY = roomOffsetY + pPresetUnit->dwPosY;
+        unsigned int coordX = roomOffsetX + pPresetUnit->dwPosX;
+        unsigned int coordY = roomOffsetY + pPresetUnit->dwPosY;
 
         if (pPresetUnit->dwType == UNIT_TYPE_NPC) {
             if (npc_is_useless(pPresetUnit->dwTxtFileNo)) continue;
@@ -347,15 +328,14 @@ int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2) {
             objectId = pPresetUnit->dwTxtFileNo;
 
         } else if (pPresetUnit->dwType == UNIT_TYPE_OBJECT) {
-            objectType = get_object_type(pPresetUnit->dwTxtFileNo);
-            if (!objectType) continue;
+            objectType = get_object_type();
             objectId = pPresetUnit->dwTxtFileNo;
             if (pPresetUnit->dwTxtFileNo < 580) {
                 ObjectTxt *txt = d2common_get_object_txt(gameVersion, pPresetUnit->dwTxtFileNo);
                 objectName = txt->szName;
                 if (txt->nSelectable0) operateFn = txt->nOperateFn;
             }
-            objectClass = get_object_class(pPresetUnit->dwTxtFileNo, objectName, operateFn);
+            objectClass = get_object_class(pPresetUnit->dwTxtFileNo, operateFn);
         } else if (pPresetUnit->dwType == UNIT_TYPE_TILE) {
             for (RoomTile *pRoomTile = pRoom2->pRoomTiles; pRoomTile; pRoomTile = pRoomTile->pNext) {
                 if (*pRoomTile->nNum == pPresetUnit->dwTxtFileNo) {
@@ -379,18 +359,17 @@ int dump_objects(Act *pAct, Level *pLevel, Room2 *pRoom2) {
             json_object_end();
         }
     }
-    return 0;
 }
 
 void dump_rooms(Level *pLevel) {
-    Room2 *room = pLevel->pRoom2First;
+    // Room2 *room = pLevel->pRoom2First;
 
     for (Room2 *pRoom = pLevel->pRoom2First; pRoom; pRoom = pRoom->pRoom2Next) {
         json_object_start();
-        int coordX = pRoom->dwPosX * 5;
-        int coordY = pRoom->dwPosY * 5;
-        int width = pRoom->dwSizeX * 5;
-        int height = pRoom->dwSizeY * 5;
+        unsigned int coordX = pRoom->dwPosX * 5;
+        unsigned int coordY = pRoom->dwPosY * 5;
+        unsigned int width = pRoom->dwSizeX * 5;
+        unsigned int height = pRoom->dwSizeY * 5;
         json_key_value("x", coordX);
         json_key_value("y", coordY);
         json_key_value("width", width);
@@ -399,9 +378,8 @@ void dump_rooms(Level *pLevel) {
     }
 }
 
-void dump_map_collision(int width, int height) {
+void dump_map_collision(unsigned int width) {
     int maxY = map_max_y();
-    int maxX = map_max_x();
     for (int y = 0; y <= maxY; y++) {
         json_array_start();
         char last = 'X';
@@ -449,11 +427,15 @@ int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
             case 63:
             case 99:
                 return 1;
+            default:
+                break;
         }
     } else if (gameVersion == VersionProjectDiablo2) {
         switch(levelCode) {
             case 150:
                 return 1;
+            default:
+                break;
         }
     } 
 
@@ -465,10 +447,6 @@ int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
     if (!pLevel) return 1;
 
     char *levelName = levelData->szName;
-    if (!pLevel) {
-        log_warn("Map:SkippingLevel:FailedLoading", lk_i("mapId", levelCode), lk_s("mapName", levelName));
-        return 1;
-    }
 
     if (!pLevel->pRoom2First) d2common_init_level(gameVersion, pLevel); 
     if (!pLevel->pRoom2First) {
@@ -476,11 +454,11 @@ int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
         return 1;
     }
 
-    int originX = pLevel->dwPosX * 5;
-    int originY = pLevel->dwPosY * 5;
+    unsigned int originX = pLevel->dwPosX * 5;
+    unsigned int originY = pLevel->dwPosY * 5;
 
-    int mapWidth = pLevel->dwSizeX * 5;
-    int mapHeight = pLevel->dwSizeY * 5;
+    unsigned int mapWidth = pLevel->dwSizeX * 5;
+    unsigned int mapHeight = pLevel->dwSizeY * 5;
 
     log_trace("MapInit", lk_i("actId", actId), lk_i("mapId", levelCode), lk_s("mapName", levelName), lk_i("originY", originY), lk_i("originX", originX), lk_i("width", mapWidth), lk_i("height", mapHeight));
     map_reset();
@@ -518,7 +496,7 @@ int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
 
     json_array_end();
     json_array_start("map");
-    dump_map_collision(mapWidth, mapHeight);
+    dump_map_collision(mapWidth);
     json_array_end();
     json_end();
     return 0;

@@ -743,7 +743,7 @@ enum NpcCode {
     NpcNotApplicable = 0xFFFF
 };
 
-static bool npc_is_useless(int code) {
+static bool npc_is_useless(unsigned int code) {
     switch (code) {
         case NpcCode::Gorgon:            // Unused
         case NpcCode::Gorgon2:           // Unused

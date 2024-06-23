@@ -18,7 +18,7 @@ void d2common_unload_act(D2Version gameVersion, Act* pAct) {
     if (gameVersion == VersionDiablo2) return D2COMMON_Pd2_UnloadAct(pAct);
 }
 
-Act* d2common_load_act(D2Version gameVersion, int actId, int seed, int difficulty) {
+Act* d2common_load_act(D2Version gameVersion, int actId, unsigned int seed, int difficulty) {
     /** Cache hit */
     if (act_seeds[actId] == seed && act_diff[actId] == difficulty) return acts[actId];
     /** Seed or difficulty has changed unload old act */
@@ -32,7 +32,7 @@ Act* d2common_load_act(D2Version gameVersion, int actId, int seed, int difficult
     return pAct;
 }
 
-LevelTxt* d2common_get_level_text(D2Version gameVersion, int levelCode) {
+LevelTxt* d2common_get_level_text(D2Version gameVersion, unsigned int levelCode) {
     if (gameVersion == VersionPathOfDiablo) return D2COMMON_Pod_GetLevelText(levelCode);
     if (gameVersion == VersionProjectDiablo2) return  D2COMMON_Pd2_GetLevelText(levelCode);
     if (gameVersion == VersionDiablo2) return  D2COMMON_Pd2_GetLevelText(levelCode);
