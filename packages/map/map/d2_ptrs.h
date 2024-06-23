@@ -56,7 +56,7 @@ VARPTR(STORM, Pod_MPQHashTable, DWORD, 0x52A60)
 ASMPTR(D2CLIENT, Pod_LoadAct_1, 0x737F0)
 ASMPTR(D2CLIENT, Pod_LoadAct_2, 0x2B420)
 
-FUNCPTR(D2COMMON, Pod_AddRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), 0x24990)
+FUNCPTR(D2COMMON, Pod_AddRoomData, void __stdcall, (Act * ptAct, unsigned int LevelId, unsigned int Xpos, unsigned int Ypos, Room1 *pRoom), 0x24990)
 FUNCPTR(D2COMMON, Pod_RemoveRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), 0x24930)
 FUNCPTR(D2COMMON, Pod_GetLevel, Level *__fastcall, (ActMisc * pMisc, DWORD dwLevelNo), 0x6D440)
 FUNCPTR(D2COMMON, Pod_InitDataTables, DWORD __stdcall, (DWORD PARAM_1, DWORD PARAM_2, DWORD PARAM_3), -10081)  //  1.13d
@@ -80,7 +80,7 @@ VARPTR(STORM, Pd2_MPQHashTable, DWORD, 0x53120)
 ASMPTR(D2CLIENT, Pd2_LoadAct_1, 0x62AA0)
 ASMPTR(D2CLIENT, Pd2_LoadAct_2, 0x62760)
 
-FUNCPTR(D2COMMON, Pd2_AddRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), -10401)
+FUNCPTR(D2COMMON, Pd2_AddRoomData, void __stdcall, (Act * ptAct, unsigned int LevelId, unsigned int Xpos, unsigned int Ypos, Room1 *pRoom), -10401)
 FUNCPTR(D2COMMON, Pd2_RemoveRoomData, void __stdcall, (Act * ptAct, int LevelId, int Xpos, int Ypos, Room1 *pRoom), -11099)
 FUNCPTR(D2COMMON, Pd2_GetLevel, Level *__fastcall, (ActMisc * pMisc, DWORD dwLevelNo), -10207)
 FUNCPTR(D2COMMON, Pd2_InitLevel, void __stdcall, (Level * pLevel), -10322)

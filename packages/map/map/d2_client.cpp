@@ -430,13 +430,8 @@ int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
             default:
                 break;
         }
-    } else if (gameVersion == VersionProjectDiablo2) {
-        switch(levelCode) {
-            case 150:
-                return 1;
-            default:
-                break;
-        }
+    } else if (gameVersion == VersionProjectDiablo2 && levelCode == 150) {
+        return 1;
     } 
 
     int actId = get_act(levelCode);
