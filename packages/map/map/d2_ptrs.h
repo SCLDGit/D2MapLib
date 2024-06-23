@@ -42,7 +42,7 @@ enum {
 #endif
 
 // Shared between versions
-FUNCPTR(FOG, 10021, VOID __fastcall, (CHAR * szProg), -10021)
+FUNCPTR(FOG, 10021, VOID __fastcall, (const CHAR * szProg), -10021)
 FUNCPTR(D2COMMON,     LoadAct, Act *__stdcall, (DWORD ActNumber, DWORD MapId, DWORD Unk, DWORD Unk_2, DWORD Unk_3, DWORD Unk_4, DWORD TownLevelId, DWORD Func_1, DWORD Func_2), 0x24810)  // 1.13d
 
 FUNCPTR(FOG, 10019, DWORD __fastcall, (CHAR * szAppName, DWORD pExceptionHandler, CHAR *szTitle, DWORD _1), -10019)
@@ -94,7 +94,7 @@ FUNCPTR(D2COMMON, Pd2_InitDataTables, DWORD __stdcall, (DWORD _1, DWORD _2, DWOR
 
 FUNCPTR(D2WIN, 10086, DWORD __fastcall, (VOID), -10086)
 FUNCPTR(D2WIN, 10005, DWORD __fastcall, (DWORD _1, DWORD _2, DWORD _3, d2client_struct *pD2Client), -10005)
-FUNCPTR(D2LANG, 10008, DWORD __fastcall, (DWORD _1, CHAR *_2, DWORD _3), -10008)
+FUNCPTR(D2LANG, 10008, DWORD __fastcall, (DWORD _1, const CHAR *_2, DWORD _3), -10008)
 FUNCPTR(D2COMMON, 10943, DWORD __stdcall, (DWORD _1, DWORD _2, DWORD _3), -10943)
 
 

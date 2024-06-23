@@ -1,5 +1,5 @@
 
-#include <stdio.h>
+#include <cstdio>
 #include <windows.h>
 
 #include <fstream>
@@ -27,13 +27,13 @@
 
 d2client_struct D2Client;
 char D2_DIR[MAX_PATH] = "";
-CHAR *DIABLO_2 = (CHAR *)"Diablo II";
-CHAR *DIABLO_2_VERSION = (CHAR *)"v1.xy";
+const CHAR *DIABLO_2 = (CHAR *)"Diablo II";
+const CHAR *DIABLO_2_VERSION = (CHAR *)"v1.xy";
 
-CHAR *PATH_OF_DIABLO = "Path of Diablo";
-CHAR *PROJECT_DIABLO = "ProjectD2";
+const CHAR *PATH_OF_DIABLO = "Path of Diablo";
+const CHAR *PROJECT_DIABLO = "ProjectD2";
 
-DWORD D2ClientInterface(VOID) {
+unsigned long D2ClientInterface(VOID) {
     return D2Client.dwInit;
 }
 
@@ -96,6 +96,7 @@ void d2_game_init_pod() {
 
 int D2CLIENT_Pd2_InitGameMisc_I_P = 0x6faf454b;
 void /* __declspec(naked) */ D2CLIENT_Pd2_InitGameMisc() {
+    int address = D2CLIENT_Pd2_InitGameMisc_I_P;
     __asm(
         "MOVL %EBP, %ESP\n"
         "POPL %EBP\n"
@@ -108,9 +109,9 @@ void /* __declspec(naked) */ D2CLIENT_Pd2_InitGameMisc() {
 }
 bool isProjectDiablo2 = false;
 void d2_game_init_pd2() {
-    *p_STORM_Pd2_MPQHashTable = (DWORD)NULL;
+    *p_STORM_Pd2_MPQHashTable = 0;
     D2Client.dwInit = 1;
-    D2Client.fpInit = (DWORD)D2ClientInterface;
+    D2Client.fpInit = reinterpret_cast<DWORD>(D2ClientInterface);
 
     log_trace("Init:Dll", lk_s("dll", "Fog.dll"));
     FOG_10021("D2");
@@ -125,7 +126,7 @@ void d2_game_init_pd2() {
     log_debug("Init:Dll:Done", lk_s("dll", "Fog.dll"));
 
     log_trace("Init:Dll", lk_s("dll", "D2Win.dll"));
-    if (!D2WIN_10086() || !D2WIN_10005((DWORD)NULL, (DWORD)NULL, (DWORD)NULL, &D2Client)) {
+    if (!D2WIN_10086() || !D2WIN_10005(0, 0, 0, &D2Client)) {
         log_error("InitFailed", lk_s("dll", "D2Win.dll"));
         //ExitProcess(1);
     }
@@ -157,22 +158,22 @@ void d2_game_init(char *folderName) {
     }
 
 
-    LPCTSTR keyName = TEXT("SOFTWARE\\Blizzard Entertainment\\Diablo II");
-    HKEY hKey;
-    LONG openRes = RegOpenKeyEx(HKEY_CURRENT_USER, keyName, 0, KEY_ALL_ACCESS, &hKey);
-
-    if (openRes == ERROR_SUCCESS) {
-        log_trace("Registry:Opened");
-    } else {
-        log_error("Registry:Failed:Open");
-        ExitProcess(1);
-    }
-
-    LPCTSTR value = TEXT("InstallPath");
-    LPCTSTR data = folderName;
-    LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data) + 1);
-    log_info("Registry:InstallPath", lk_s("value", folderName));
-    RegCloseKey(hKey);
+//    LPCTSTR keyName = TEXT("SOFTWARE\\Blizzard Entertainment\\Diablo II");
+//    HKEY hKey;
+//    LONG openRes = RegOpenKeyEx(HKEY_CURRENT_USER, keyName, 0, KEY_ALL_ACCESS, &hKey);
+//
+//    if (openRes == ERROR_SUCCESS) {
+//        log_trace("Registry:Opened");
+//    } else {
+//        log_error("Registry:Failed:Open");
+//        ExitProcess(1);
+//    }
+//
+//    LPCTSTR value = TEXT("InstallPath");
+//    LPCTSTR data = folderName;
+//    LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data) + 1);
+//    log_info("Registry:InstallPath", lk_s("value", folderName));
+//    RegCloseKey(hKey);
 
     sprintf_s(D2_DIR, sizeof(D2_DIR), "%s/%s", folderName, game_version_path(gameVersion));
     log_info("Init:Game", lk_s("version", game_version_path(gameVersion)), lk_s("path", D2_DIR));
@@ -436,7 +437,7 @@ int get_act(int levelCode) {
     return -1;
 }
 
-int d2_dump_map(int seed, int difficulty, int levelCode) {
+int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
     LevelTxt *levelData = d2common_get_level_text(gameVersion, levelCode); 
     if (!levelData) return 1;
 

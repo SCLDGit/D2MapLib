@@ -29,30 +29,30 @@ void json_value(int value) {
     json_comma();
     JSON_PRINT("%d", value);
 }
-void json_key_raw(char *key) {
+void json_key_raw(const char *key) {
     JSON_PRINT("\"%s\":", key);
 }
-void json_key_value(char *key, int value) {
+void json_key_value(const char *key, int value) {
     json_comma();
     json_key_raw(key);
     JSON_PRINT("%d", value);
 }
-void json_key_value(char *key, unsigned int value) {
+void json_key_value(const char *key, unsigned int value) {
     json_comma();
     json_key_raw(key);
     JSON_PRINT("%u", value);
 }
-void json_key_value(char *key, int64_t value) {
+void json_key_value(const char *key, int64_t value) {
     json_comma();
     json_key_raw(key);
     JSON_PRINT("%" PRId64 "", value);
 }
-void json_key_value(char *key, char *value) {
+void json_key_value(const char *key, char *value) {
     json_comma();
     json_key_raw(key);
     JSON_PRINT("\"%s\"", value);
 }
-void json_key_value(char *key, bool value) {
+void json_key_value(const char *key, bool value) {
     json_comma();
     json_key_raw(key);
     JSON_PRINT("%s", value ? "true" : "false");
@@ -63,7 +63,7 @@ void json_array_start() {
     json_comma_enabled = false;
     JSON_PRINT("[");
 }
-void json_array_start(char *key) {
+void json_array_start(const char *key) {
     json_comma();
     json_key_raw(key);
     json_comma_enabled = false;
@@ -79,7 +79,7 @@ void json_object_start() {
     JSON_PRINT("{");
     json_comma_enabled = false;
 }
-void json_object_start(char *key) {
+void json_object_start(const char *key) {
     json_comma();
     json_key_raw(key);
     JSON_PRINT("{");

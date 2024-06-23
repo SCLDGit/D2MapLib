@@ -1,5 +1,4 @@
 #include <unistd.h>
-#include <stdarg.h>
 
 #include <iostream>
 
@@ -18,13 +17,13 @@ const char COMMAND_ACT[] = "$act";
 const char COMMAND_SEED[] = "$seed";
 
 bool starts_with(const char *prefix, const char *search_string) {
-    if (strncmp(prefix, search_string, strlen(search_string)) == 0) return 1;
-    return 0;
+    if (strncmp(prefix, search_string, strlen(search_string)) == 0) return true;
+    return false;
 }
 
 const char *CharGray = "\33[90m";
 
-char *CliUsage = "\nUsage:\n"
+const char *CliUsage = "\nUsage:\n"
     "    d2-map.exe [D2 Game Path] [options]\n"
     "\nOptions:\n"
     "    --seed [-s]          Map Seed\n"
@@ -52,47 +51,46 @@ void dump_info(unsigned int seed, int difficulty, int actId, int mapId) {
 }
 
 
-void dump_maps(unsigned int seed, int difficulty, int actId, int mapId) {
+void dump_maps(unsigned int p_seed, int p_difficulty, int p_actId, int p_mapId) {
     int64_t totalTime = currentTimeMillis();
     int mapCount = 0;
-    if (mapId > -1) {
+    if (p_mapId > -1) {
         int64_t startTime = currentTimeMillis();
-        int res = d2_dump_map(seed, difficulty, mapId);
+        int res = d2_dump_map(p_seed, p_difficulty, p_mapId);
         if (res == 0) mapCount ++;
         int64_t duration = currentTimeMillis() - startTime;
-        log_debug("Map:Generation", lk_ui("seed", seed), lk_i("difficulty", difficulty), lk_i("mapId", mapId), lk_i("duration", duration));
+        log_debug("Map:Generation", lk_ui("p_seed", p_seed), lk_i("difficulty", p_difficulty), lk_i("mapId", p_mapId), lk_i("duration", duration));
     } else {
         for (int mapId = 0; mapId < 200; mapId++) {
             // Skip map if its not part of the current act
-            if (actId > -1 && get_act(mapId) != actId) continue;
+            if (p_actId > -1 && get_act(mapId) != p_actId) continue;
 
             int64_t startTime = currentTimeMillis();
-            int res = d2_dump_map(seed, difficulty, mapId);
+            int res = d2_dump_map(p_seed, p_difficulty, mapId);
             if (res == 0) mapCount ++;
             if (res == 1) continue; // Failed to generate the map
 
             int64_t currentTime = currentTimeMillis();
             int64_t duration = currentTime - startTime;
-            startTime = currentTime;
-            log_debug("Map:Generation", lk_ui("seed", seed), lk_i("difficulty", difficulty), lk_i("actId", get_act(mapId)), lk_i("mapId", mapId), lk_i("duration", duration));
+            log_debug("Map:Generation", lk_ui("p_seed", p_seed), lk_i("difficulty", p_difficulty), lk_i("actId", get_act(mapId)), lk_i("mapId", mapId), lk_i("duration", duration));
         }
     }
     int64_t duration = currentTimeMillis() - totalTime;
-    log_info("Map:Generation:Done", lk_ui("seed", seed), lk_i("difficulty", difficulty), lk_i("count", mapCount), lk_i("duration", duration));
+    log_info("Map:Generation:Done", lk_ui("p_seed", p_seed), lk_i("difficulty", p_difficulty), lk_i("count", mapCount), lk_i("duration", duration));
     printf("\n");
 }
 
 
 int main(int argc, char *argv[]) {
     if (argc < 1) {
-        printf(CliUsage);
+        printf("%s", CliUsage);
         return 1;
     }
     log_info("Cli:Start", lk_s("version", GIT_VERSION), lk_s("hash", GIT_HASH));
 
     char c[INPUT_BUFFER];
 
-    char *gameFolder = NULL;
+    char *gameFolder = nullptr;
     DWORD argSeed = 0xff00ff00;
     int argMapId = -1;
     int argDifficulty = 0;
@@ -128,11 +126,11 @@ int main(int argc, char *argv[]) {
 
     if (argActId > 0 && argMapId > 0) {
         printf("--act and --map cannot be used together\n");
-        printf(CliUsage);
+        printf("%s", CliUsage);
         return 1;
     }
-    if (gameFolder == NULL) {
-        printf(CliUsage);
+    if (gameFolder == nullptr) {
+        printf("%s", CliUsage);
         return 1;
     }
 
@@ -158,7 +156,7 @@ int main(int argc, char *argv[]) {
 
     int rtn;
     /** Read in seed/Difficulty then generate all the maps */
-    while (fgets(buffer, INPUT_BUFFER, stdin) != NULL) {
+    while (fgets(buffer, INPUT_BUFFER, stdin) != nullptr) {
         if (starts_with(buffer, COMMAND_EXIT) == 1) return 0;
 
         if (starts_with(buffer, COMMAND_MAP) == 1) {
