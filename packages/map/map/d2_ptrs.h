@@ -46,7 +46,7 @@ enum {
 FUNCPTR(FOG, 10021, VOID __fastcall, (const CHAR * szProg), -10021)
 FUNCPTR(D2COMMON,     LoadAct, Act *__stdcall, (DWORD ActNumber, DWORD MapId, DWORD Unk, DWORD Unk_2, DWORD Unk_3, DWORD Unk_4, DWORD TownLevelId, DWORD Func_1, DWORD Func_2), 0x24810)  // 1.13d
 
-FUNCPTR(FOG, 10019, DWORD __fastcall, (const CHAR * szAppName, DWORD pExceptionHandler, const CHAR *szTitle, DWORD _1), -10019)
+FUNCPTR(FOG, 10019, DWORD __fastcall, (const CHAR * szAppName, DWORD pExceptionHandler, const CHAR *szTitle, DWORD PARAM_1), -10019)
 FUNCPTR(FOG, 10101, DWORD __fastcall, (DWORD PARAM_1, DWORD PARAM_2), -10101)
 FUNCPTR(FOG, 10089, DWORD __fastcall, (DWORD PARAM_1), -10089)
 FUNCPTR(FOG, 10218, DWORD __fastcall, (VOID), -10218)
