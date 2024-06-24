@@ -25,7 +25,7 @@ const char* game_version_path(D2Version version) {
 }
 
 /** Determine if a a version of the game exists in the path by checking for Game.exe */
-bool game_version_exists(char* folderName, D2Version version) {
+bool game_version_exists(const char* folderName, D2Version version) {
     char gamePathExe[MAX_PATH];
     const char* gamePath = game_version_path(version);
     if (gamePath == nullptr) return false;
@@ -35,14 +35,14 @@ bool game_version_exists(char* folderName, D2Version version) {
     std::ifstream ifs(gamePathExe, std::ifstream::in);
     bool found = !ifs;
     ifs.close();
-    log_trace("Init:GamePath", lk_b("exists", !found), lk_s("game", gamePathExe)); 
+    log_trace("Init:GamePath", lk_b("exists", !found), lk_s("game", gamePathExe));
     return !found;
 }
 
 /** Attempt to determine which mod is installed */
-D2Version game_version(char* folderName) {
+D2Version game_version(const char* folderName) {
     if (game_version_exists(folderName, VersionPathOfDiablo)) return VersionPathOfDiablo;
     if (game_version_exists(folderName, VersionProjectDiablo2)) return VersionProjectDiablo2;
-    if (game_version_exists(folderName, VersionDiablo2)) return VersionDiablo2; 
+    if (game_version_exists(folderName, VersionDiablo2)) return VersionDiablo2;
     return VersionUnknown;
 }

@@ -50,16 +50,16 @@ D2Version gameVersion = VersionUnknown;
 int D2CLIENT_Pod_InitGameMisc_I_P = 0x6faf559b;
 void /* __declspec(naked) */ D2CLIENT_Pod_InitGameMisc() {
     __asm(
-        "MOVL %EBP, %ESP\n"
-        "POPL %EBP\n"
-        ".intel_syntax noprefix\n"
-        "PUSH ECX\n"
-        "PUSH EBP\n"
-        "PUSH ESI\n"
-        "PUSH EDI\n"
-        ".att_syntax prefix\n"
-        "JMP 0x6faf559b\n"  // Magic Jump
-        "PUSHL %EBP\n");
+            "MOVL %EBP, %ESP\n"
+            "POPL %EBP\n"
+            ".intel_syntax noprefix\n"
+            "PUSH ECX\n"
+            "PUSH EBP\n"
+            "PUSH ESI\n"
+            "PUSH EDI\n"
+            ".att_syntax prefix\n"
+            "JMP 0x6faf559b\n"  // Magic Jump
+            "PUSHL %EBP\n");
 }
 
 // bool isPathOfDiablo = false;
@@ -99,14 +99,14 @@ void d2_game_init_pod() {
 int D2CLIENT_Pd2_InitGameMisc_I_P = 0x6faf454b;
 void /* __declspec(naked) */ D2CLIENT_Pd2_InitGameMisc() {
     __asm(
-        "MOVL %EBP, %ESP\n"
-        "POPL %EBP\n"
-        "PUSHL %ECX\n"
-        "PUSHL %EBP\n"
-        "PUSHL %ESI\n"
-        "PUSHL %EDI\n"
-        "JMP 0x6faf454b\n"  // Magic Jump
-        );
+            "MOVL %EBP, %ESP\n"
+            "POPL %EBP\n"
+            "PUSHL %ECX\n"
+            "PUSHL %EBP\n"
+            "PUSHL %ESI\n"
+            "PUSHL %EDI\n"
+            "JMP 0x6faf454b\n"  // Magic Jump
+            );
 }
 bool isProjectDiablo2 = false;
 void d2_game_init_pd2() {
@@ -143,7 +143,7 @@ void d2_game_init_pd2() {
     log_debug("Init:Dll:Done", lk_s("dll", "D2Client.dll"));
 }
 
-void d2_game_init(char *folderName) {
+void d2_game_init(const char *folderName) {
     log_debug("Init:Dll", lk_s("path", folderName));
 
     gameVersion = game_version(folderName);
@@ -179,7 +179,7 @@ void d2_game_init(char *folderName) {
 }
 
 Level *__fastcall d2_get_level(ActMisc *misc, DWORD levelCode) {
-    LevelTxt *levelData = d2common_get_level_text(gameVersion, levelCode); 
+    LevelTxt *levelData = d2common_get_level_text(gameVersion, levelCode);
     if (!levelData) return nullptr;
 
     for (Level *pLevel = misc->pLevelFirst; pLevel; pLevel = pLevel->pNextLevel) {
@@ -234,32 +234,32 @@ const char *get_object_class(unsigned int code, int operateFn) {
         case 41:
         case 59:
         case 58:
-        case 4: 
+        case 4:
             return "chest";
-        case 8: 
+        case 8:
         case 18:
         case 29:
             return "door";
-        /** Diablo Seals */
+            /** Diablo Seals */
         case 54:
         case 52:
         case 55:
         case 56:
-        /** Trist stones */
+            /** Trist stones */
         case 9:
 
-        /* complelling orb */
+            /* complelling orb */
         case 53:
-        /* Horiadric orifice */
+            /* Horiadric orifice */
         case 25:
-        /* Sewer Lever */
+            /* Sewer Lever */
         case 45:
-        // /* Hell forge */
+            // /* Hell forge */
         case 49:
-        /** Tome */
+            /** Tome */
         case 28:
-        /** Sun altar */
-        case 24: 
+            /** Sun altar */
+        case 24:
             return "quest";
         default:
             break;
@@ -418,7 +418,7 @@ int get_act(int levelCode) {
 }
 
 int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
-    LevelTxt *levelData = d2common_get_level_text(gameVersion, levelCode); 
+    LevelTxt *levelData = d2common_get_level_text(gameVersion, levelCode);
     if (!levelData) return 1;
 
     if (gameVersion == VersionPathOfDiablo) {
@@ -434,10 +434,10 @@ int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
         }
     } else if (gameVersion == VersionProjectDiablo2 && levelCode == 150) {
         return 1;
-    } 
+    }
 
     int actId = get_act(levelCode);
-    Act *pAct = d2common_load_act(gameVersion, actId, seed, difficulty); 
+    Act *pAct = d2common_load_act(gameVersion, actId, seed, difficulty);
     if (!pAct) return 1;
 
     Level *pLevel = d2_get_level(pAct->pMisc, levelCode);  // Loading Town Level
@@ -445,7 +445,7 @@ int d2_dump_map(unsigned int seed, int difficulty, int levelCode) {
 
     char *levelName = levelData->szName;
 
-    if (!pLevel->pRoom2First) d2common_init_level(gameVersion, pLevel); 
+    if (!pLevel->pRoom2First) d2common_init_level(gameVersion, pLevel);
     if (!pLevel->pRoom2First) {
         log_warn("Map:SkippingLevel:FailedRoomLoading", lk_i("mapId", levelCode), lk_s("mapName", levelName));
         return 1;
